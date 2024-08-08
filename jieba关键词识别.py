@@ -61,25 +61,35 @@ def extract_most_important_keyword_and_location(text):
             "most_important_location": most_important_location}
 
 
-# 示例文本列表
-texts = [
-    "今天早上我去了郑大一附院做核酸检测，人非常多，队伍排到了医院门口。",
-    "郑州东站最近加强了防疫措施，进出站都需要出示健康码。",
-    "昨天晚上，我在郑州市区散步的时候，看到很多地方都贴上了疫情防控的宣传海报。",
-    "我们公司的员工昨天接到了通知，由于疫情形势严峻，建议大家尽量减少外出。",
-    "郑州市教育局发布通知，所有学校要加强校园封闭管理，确保师生安全。",
-    "最近，金水区的一些小区开始实行严格的出入登记制度，外来人员不得进入。",
-    "为了配合疫情防控工作，郑州动物园宣布暂时闭园，恢复开放时间另行通知。",
-    "郑州市政府召开新闻发布会，通报了最新的疫情情况，并呼吁市民做好个人防护。",
-    "我的朋友住在二七区，他们那边已经开始了第二轮全员核酸检测。",
-    "今天我在中原万达广场购物时，工作人员提醒每位顾客要佩戴口罩并测量体温。"
-]
+# # 示例文本列表
+# texts = [
+#     "今天早上我去了郑大一附院做核酸检测，人非常多，队伍排到了医院门口。",
+#     "郑州东站最近加强了防疫措施，进出站都需要出示健康码。",
+#     "昨天晚上，我在郑州市区散步的时候，看到很多地方都贴上了疫情防控的宣传海报。",
+#     "我们公司的员工昨天接到了通知，由于疫情形势严峻，建议大家尽量减少外出。",
+#     "郑州市教育局发布通知，所有学校要加强校园封闭管理，确保师生安全。",
+#     "最近，金水区的一些小区开始实行严格的出入登记制度，外来人员不得进入。",
+#     "为了配合疫情防控工作，郑州动物园宣布暂时闭园，恢复开放时间另行通知。",
+#     "郑州市政府召开新闻发布会，通报了最新的疫情情况，并呼吁市民做好个人防护。",
+#     "我的朋友住在二七区，他们那边已经开始了第二轮全员核酸检测。",
+#     "今天我在中原万达广场购物时，工作人员提醒每位顾客要佩戴口罩并测量体温。",
+#     "今天早上我去郑大一附院，发现健康码变成了红码。"
+# ]
+#
+# for i, text in enumerate(texts, start=1):
+#     # 提取最关键关键词和地名
+#     result = extract_most_important_keyword_and_location(text)
+#
+#     print(f"示例 {i}:\n"
+#           f"文本: '{text}'\n"
+#           f"最关键疫情关键词: {result['most_important_keyword']}\n"
+#           f"最关键地名关键词: {result['most_important_location']}\n")
 
-for i, text in enumerate(texts, start=1):
-    # 提取最关键关键词和地名
-    result = extract_most_important_keyword_and_location(text)
+# 单个测试用例
+text = "今天早上我去郑大一附院，发现健康码变成了红码。"
+result = extract_most_important_keyword_and_location(text)
 
-    print(f"示例 {i}:\n"
-          f"文本: '{text}'\n"
-          f"最关键疫情关键词: {result['most_important_keyword']}\n"
-          f"最关键地名关键词: {result['most_important_location']}\n")
+print(f"示例:\n"
+      f"文本: '{text}'\n"
+      f"最关键疫情关键词: {result['most_important_keyword']}\n"
+      f"最关键地名关键词: {result['most_important_location']}\n")
