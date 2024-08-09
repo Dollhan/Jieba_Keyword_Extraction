@@ -5,8 +5,33 @@
 from flask import Flask, request, jsonify
 import jieba
 
+
 app = Flask(__name__)
 
+
+def read_stopwords(filename):
+    """
+    从文件中读取停用词到集合中
+    :param filename: .txt文件
+    :return: 集合
+    """
+    stopwords = set()
+    with open(filename, 'r', encoding='utf-8') as file:
+        for line in file:
+            stopwords.add(line.strip())
+    return stopwords
+
+# 加载停用词表
+stopwords = read_stopwords('stopwords.txt')
+
+
+def filter_stopwords(words):
+    """
+    过滤停用词
+    :param words: 分词结果
+    :return: 过滤后的分词结果
+    """
+    return [word for word in words if word not in stopwords]
 def read_keywords_from_file(filename):
     """
     从文件中读取关键词和关键程度到字典中
@@ -20,12 +45,14 @@ def read_keywords_from_file(filename):
             keywords[keyword] = int(score)
     return keywords
 
+
 # 加载自定义词典
 jieba.load_userdict('custom_dict.txt')
 
 # 读取关键词文件
 epidemic_keywords = read_keywords_from_file('epidemic_keywords.txt')
 zhengzhou_locations = read_keywords_from_file('zhengzhou_locations.txt')
+
 
 def extract_most_important_keyword_and_location(text):
     """
@@ -35,11 +62,12 @@ def extract_most_important_keyword_and_location(text):
     """
     # 使用 jieba.cut 进行分词
     words = jieba.cut(text)
+    filtered_words = filter_stopwords(words)
 
     keyword_scores = {}
     location_scores = {}
 
-    for word in words:
+    for word in filtered_words:
         # 检查是否是关键词
         if word in epidemic_keywords:
             keyword_scores[word] = (keyword_scores.get(word, 0)
@@ -60,6 +88,7 @@ def extract_most_important_keyword_and_location(text):
     return {"most_important_keyword": most_important_keyword,
             "most_important_location": most_important_location}
 
+
 @app.route('/analyze_text', methods=['POST'])
 def analyze_text():
     data = request.get_json()
@@ -75,6 +104,7 @@ def analyze_text():
     }
 
     return jsonify(response)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

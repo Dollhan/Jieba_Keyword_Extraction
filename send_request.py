@@ -9,7 +9,7 @@ def send_post_request():
     url = "http://localhost:5000/analyze_text"
     headers = {'Content-Type': 'application/json'}
     data = {
-        "text": "今天早上我去郑大一附院，发现健康码变成了红码。"
+        "text": "郑州东站最近加强了防疫措施，进出站都需要出示健康码。"
     }
 
     response = requests.post(url, json=data, headers=headers)
