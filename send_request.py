@@ -1,5 +1,5 @@
 """
-输入内容
+使用 requests 库来发送 POST 请求。
 时间：2024/8/8 下午7:24
 """
 import requests

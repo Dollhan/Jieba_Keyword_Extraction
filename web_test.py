@@ -1,5 +1,5 @@
 """
-输入内容
+创建基于 Flask 的简单 RESTful API 接口
 时间：2024/8/8 下午7:08
 """
 from flask import Flask, request, jsonify
