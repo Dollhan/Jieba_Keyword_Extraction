@@ -18,9 +18,6 @@ def read_stopwords(filename):
             stopwords.add(line.strip())
     return stopwords
 
-# 加载停用词表
-stopwords = read_stopwords('stopwords.txt')
-
 
 def filter_stopwords(words):
     """
@@ -43,14 +40,6 @@ def read_keywords_from_file(filename):
             keyword, score = line.strip().split()
             keywords[keyword] = int(score)
     return keywords
-
-
-# 加载自定义词典
-jieba.load_userdict('custom_dict.txt')
-
-# 读取关键词文件
-epidemic_keywords = read_keywords_from_file('epidemic_keywords.txt')
-zhengzhou_locations = read_keywords_from_file('zhengzhou_locations.txt')
 
 
 def extract_most_important_keyword_and_location(text):
@@ -88,6 +77,16 @@ def extract_most_important_keyword_and_location(text):
     return {"most_important_keyword": most_important_keyword,
             "most_important_location": most_important_location}
 
+
+# 加载停用词表
+stopwords = read_stopwords('../dic/stopwords.txt')
+
+# 加载自定义词典
+jieba.load_userdict('../dic/custom_dict.txt')
+
+# 读取关键词文件
+epidemic_keywords = read_keywords_from_file('../dic/epidemic_keywords.txt')
+zhengzhou_locations = read_keywords_from_file('../dic/zhengzhou_locations.txt')
 
 # # 示例文本列表
 # texts = [

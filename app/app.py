@@ -6,6 +6,7 @@ from flask import Flask, request, jsonify
 import jieba
 
 
+# 创建一个Flask应用实例
 app = Flask(__name__)
 
 
@@ -21,9 +22,6 @@ def read_stopwords(filename):
             stopwords.add(line.strip())
     return stopwords
 
-# 加载停用词表
-stopwords = read_stopwords('stopwords.txt')
-
 
 def filter_stopwords(words):
     """
@@ -32,6 +30,8 @@ def filter_stopwords(words):
     :return: 过滤后的分词结果
     """
     return [word for word in words if word not in stopwords]
+
+
 def read_keywords_from_file(filename):
     """
     从文件中读取关键词和关键程度到字典中
@@ -44,14 +44,6 @@ def read_keywords_from_file(filename):
             keyword, score = line.strip().split()
             keywords[keyword] = int(score)
     return keywords
-
-
-# 加载自定义词典
-jieba.load_userdict('custom_dict.txt')
-
-# 读取关键词文件
-epidemic_keywords = read_keywords_from_file('epidemic_keywords.txt')
-zhengzhou_locations = read_keywords_from_file('zhengzhou_locations.txt')
 
 
 def extract_most_important_keyword_and_location(text):
@@ -89,6 +81,17 @@ def extract_most_important_keyword_and_location(text):
             "most_important_location": most_important_location}
 
 
+# 加载停用词表
+stopwords = read_stopwords('../dic/stopwords.txt')
+
+# 加载自定义词典
+jieba.load_userdict('../dic/custom_dict.txt')
+
+# 读取关键词文件
+epidemic_keywords = read_keywords_from_file('../dic/epidemic_keywords.txt')
+zhengzhou_locations = read_keywords_from_file('../dic/zhengzhou_locations.txt')
+
+# 定义了一个路由，指向应用程序的根 URL
 @app.route('/analyze_text', methods=['POST'])
 def analyze_text():
     data = request.get_json()
@@ -107,4 +110,4 @@ def analyze_text():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=40006)     # 端口号设置为40000左右
