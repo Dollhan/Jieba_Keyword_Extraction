@@ -1,3 +1,28 @@
+# 运行环境
+    windows 10
+    python 3.9
+# 安装依赖
+    MarkupSafe	2.1.5	
+    blinker	1.8.2	
+    certifi	2024.7.4	
+    charset-normalizer	3.3.2	
+    click	8.1.7	
+    colorama	0.4.6	
+    flask	3.0.3	
+    idna	3.7	
+    importlib-metadata	8.2.0	
+    itsdangerous	2.2.0	
+    jieba	0.42.1	
+    jinja2	3.1.4	
+    pip	23.2.1	
+    requests	2.32.3	
+    setuptools	68.2.0	
+    urllib3	2.2.2	
+    werkzeug	3.0.3	
+    wheel	0.41.2	
+    zipp	3.19.2	
+参考requirements.txt  
+
 ## 任务一：
 ### 1. 任务要求  
 写一个接口，利用jieba分词，提取输入内容的关键词和地名。要求能够识别到郑州疫情相关的关键词，屏蔽郑州市以外的地名。
@@ -20,7 +45,7 @@ epidemic_keywords.txt:疫情相关关键词词典
 jieba_keyword_extraction.py:功能实现脚本  
 send_request.py:发送request请求脚本  
 stopwords.txt:停用词词典  
-~~test.py:测试用脚本呢~~  
+~~test.py:测试用脚本~~  
 web_test.py:创建本地服务脚本  
 zhengzhou_locations.txt:郑州地名相关地址词典  
 
@@ -33,15 +58,15 @@ zhengzhou_locations.txt:郑州地名相关地址词典
 8月9日  
     撰写报告，反馈和优化，学习与总结。  
 任务要求：  
-• 学习jieba的常用方法  
-    ◦ jieba分词模式，如何实现分词，分词的算法，自定义词典  
-• 熟悉flask框架 
-• 分词按照自定义词典文件 custom_dict.txt分词  
-• 疫情相关关键词和郑州地名关键词分别创建词典.txt文件  
-• 后续可以人为添加疫情相关关键词和郑州地名关键词  
-• 要求找出的疫情相关关键词和郑州地名关键词的关键程度最高  
-• 后续将数据从文本文件的读写改到数据库上存储  
-• 考虑使用transformer的attention机制自动化分关键词，并找出最关键的词  
+• 学习jieba的常用方法   
+◦ jieba分词模式，如何实现分词，分词的算法，自定义词典   
+• 熟悉flask框架   
+• 分词按照自定义词典文件 custom_dict.txt分词    
+• 疫情相关关键词和郑州地名关键词分别创建词典.txt文件    
+• 后续可以人为添加疫情相关关键词和郑州地名关键词    
+• 要求找出的疫情相关关键词和郑州地名关键词的关键程度最高    
+• 后续将数据从文本文件的读写改到数据库上存储   
+• 考虑使用transformer的attention机制自动化分关键词，并找出最关键的词   
 ## 任务一具体实施想法：  
 准备资源：  
     网页搜索关键词：jieba分词、文本处理、关键词提取。  
