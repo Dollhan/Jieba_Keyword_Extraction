@@ -6,10 +6,10 @@ import requests
 
 
 def send_post_request():
-    url = "http://localhost:5000/analyze_text"
+    url = "http://localhost:40006/analyze_text"
     headers = {'Content-Type': 'application/json'}
     data = {
-        "text": "郑州东站最近加强了防疫措施，进出站都需要出示健康码。"
+        "昨天晚上，我在郑州市区散步的时候，看到很多地方都贴上了疫情防控的宣传海报。"
     }
 
     response = requests.post(url, json=data, headers=headers)

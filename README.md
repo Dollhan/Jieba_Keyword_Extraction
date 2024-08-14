@@ -108,5 +108,5 @@ zhengzhou_locations.txt:郑州地名相关地址词典
     打印示例编号、文本内容、最关键疫情关键词和最关键地名
 ```
 实现流程图：
-![img.png](img.png)
+![img_1.png](img_1.png)
 # TODO:接入数据库
