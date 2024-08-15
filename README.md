@@ -110,3 +110,16 @@ zhengzhou_locations.txt:郑州地名相关地址词典
 实现流程图：
 ![img_1.png](img_1.png)
 # TODO:接入数据库
+接入本地数据库  
+127.0.0.1  
+root  
+123456  
+db_task1  
+
+添加分词、调整词频在tb_custom_dict  
+
+添加疫情相关关键词 tb_epidemic_keywords  
+
+添加郑州地名相关关键词 tb_zhengzhou_location  
+
+
