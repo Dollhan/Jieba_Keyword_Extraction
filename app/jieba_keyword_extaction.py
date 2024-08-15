@@ -4,7 +4,7 @@ jieba关键词识别
 时间：2024/8/8 下午2:02
 """
 import jieba
-
+import mysql.connector
 
 def read_stopwords(filename):
     """
@@ -28,24 +28,40 @@ def filter_stopwords(words):
     return [word for word in words if word not in stopwords]
 
 
-def read_keywords_from_file(filename):
+def read_keywords_from_database(table_name):
     """
-    从文件中读取关键词和关键程度到字典中
-    :param filename: .txt文件
+    从数据库中读取关键词和关键程度到字典中
+    :param table_name: 数据库表名
     :return: 字典
     """
-    keywords = {}
-    with open(filename, 'r', encoding='utf-8') as file:
-        for line in file:
-            keyword, score = line.strip().split()
-            keywords[keyword] = int(score)
+    # 连接数据库
+    connection = mysql.connector.connect(
+        host='127.0.0.1',
+        user='root',
+        password='123456',
+        database='db_task1'
+    )
+
+    cursor = connection.cursor()
+
+    # 查询关键词和得分
+    query = f"SELECT name, importance FROM {table_name}"
+    cursor.execute(query)
+
+    keywords = {row[0]: row[1] for row in cursor.fetchall()}
+
+    cursor.close()
+    connection.close()
+
     return keywords
 
 
-def extract_most_important_keyword_and_location(text):
+def extract_most_important_keyword_and_location(text, keywords, locations):
     """
     提取最关键疫情关键词和地名
     :param text: 字符串文本
+    :param keywords: 关键词字典
+    :param locations: 地点字典
     :return: 关键词字典
     """
     # 使用 jieba.cut 进行分词
@@ -57,22 +73,15 @@ def extract_most_important_keyword_and_location(text):
 
     for word in filtered_words:
         # 检查是否是关键词
-        if word in epidemic_keywords:
-            keyword_scores[word] = (keyword_scores.get(word, 0)
-                                    + epidemic_keywords[word])
+        if word in keywords:
+            keyword_scores[word] = (keyword_scores.get(word, 0) + keywords[word])
         # 检查是否是地名
-        elif word in zhengzhou_locations:
-            location_scores[word] = (location_scores.get(word, 0)
-                                     + zhengzhou_locations[word])
-
+        elif word in locations:
+            location_scores[word] = (location_scores.get(word, 0) + locations[word])
 
     # 确定最关键关键词
-    most_important_keyword = max(keyword_scores,
-                                 key=keyword_scores.get,
-                                 default=None)
-    most_important_location = max(location_scores,
-                                  key=location_scores.get,
-                                  default=None)
+    most_important_keyword = max(keyword_scores, key=keyword_scores.get, default=None)
+    most_important_location = max(location_scores, key=location_scores.get, default=None)
 
     return {"most_important_keyword": most_important_keyword,
             "most_important_location": most_important_location}
@@ -84,9 +93,9 @@ stopwords = read_stopwords('../dic/stopwords.txt')
 # 加载自定义词典
 jieba.load_userdict('../dic/custom_dict.txt')
 
-# 读取关键词文件
-epidemic_keywords = read_keywords_from_file('../dic/epidemic_keywords.txt')
-zhengzhou_locations = read_keywords_from_file('../dic/zhengzhou_locations.txt')
+# 从数据库中读取关键词和地点信息
+epidemic_keywords = read_keywords_from_database('tb_epidemic_keywords')
+zhengzhou_locations = read_keywords_from_database('tb_zhengzhou_location')
 
 # # 示例文本列表
 # texts = [
@@ -113,8 +122,8 @@ zhengzhou_locations = read_keywords_from_file('../dic/zhengzhou_locations.txt')
 #           f"最关键地名关键词: {result['most_important_location']}\n")
 
 # 单个测试用例
-text = "今天早上我去郑大一附院，发现健康码变成了红码。"
-result = extract_most_important_keyword_and_location(text)
+text = "今天早上我去郑大一附院，发现健康码变成了红码和绿码。"
+result = extract_most_important_keyword_and_location(text, epidemic_keywords, zhengzhou_locations)
 
 print(f"示例:\n"
       f"文本: '{text}'\n"
